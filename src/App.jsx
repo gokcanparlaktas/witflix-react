@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Profile from "./components/Profile";
+import "./Form.css";
 
 const APIDataStatic = [
   {
@@ -36,14 +37,45 @@ const sampleUser = {
 };
 
 function App() {
+  const [user, setUser] = useState({ username: "" });
   const [users, setUsers] = useState(APIDataStatic);
+
   const handleAddUser = (newUser) => {
     setUsers([...users, newUser]);
   };
 
+  const handleChange = (event) => {
+    const newUser = { ...user, [event.target.name]: event.target.value };
+    setUser(newUser);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const submittedUser = {
+      ...user,
+      id: Date.now(),
+      avatarUrl: `https://api.multiavatar.com/${user.username}.svg`,
+    };
+    handleAddUser(submittedUser);
+  };
+
   return (
     <>
-      <button onClick={() => handleAddUser(sampleUser)}>Add User</button>
+      <form>
+        <div className="input-group">
+          <label htmlFor="username">Username</label>
+          <input
+            onChange={handleChange}
+            value={user.username}
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Kullanıcı Adı"
+          />
+        </div>
+      </form>
+
+      <button type="submit">Add User</button>
 
       {users.map((user) => (
         <Profile key={user.id} info={user} />
