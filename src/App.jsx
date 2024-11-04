@@ -28,10 +28,23 @@ const APIDataStatic = [
   },
 ];
 
+const sampleUser = {
+  createdAt: "2024-10-16T19:54:13.416Z",
+  name: "Hamdullah Suphi",
+  avatarUrl: "https://api.multiavatar.com/1453.svg",
+  id: "5",
+};
+
 function App() {
   const [users, setUsers] = useState(APIDataStatic);
+  const handleAddUser = (newUser) => {
+    setUsers([...users, newUser]);
+  };
+
   return (
     <>
+      <button onClick={() => handleAddUser(sampleUser)}>Add User</button>
+
       {users.map((user) => (
         <Profile key={user.id} info={user} />
       ))}
